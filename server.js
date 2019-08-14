@@ -6,6 +6,7 @@ const path = require("path");
 const mainRouter = require("./routes/mainRouter");
 const authRouter = require("./routes/authRouter");
 const adminRouter = require("./routes/adminRouter");
+const User = require("./models/user");
 
 
 //External
@@ -39,6 +40,16 @@ server.use(express.static(path.join(__dirname, 'public')));//Allow the html to c
 server.use(bodyParser.urlencoded({extended: false}));//Set up the body parser
 
 //=Middleware
+
+server.use((req, res, next) => { //store a specific user in the request object
+
+  User.findById("5d5426f2bf5dcf2cc42bda49")//find the fake user by id
+  .then(user => { //returns the user from the database
+    req.user = user; //create a new user to store in the request object and map it with the values we just pulled from the database
+    next();//move onto the next function
+  })
+  .catch(err => console.log(err))//catch any errors
+})
 
 server.use('/admin', adminRouter);
 server.use(mainRouter);
