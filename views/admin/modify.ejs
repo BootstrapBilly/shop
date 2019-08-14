@@ -1,0 +1,35 @@
+<%- include("../includes/head.ejs") %>
+
+<form class="login-form" action="http://localhost:5000/admin/update-product" method="POST">
+
+    <input type="hidden" name="_id" value="<%= product._id %>">
+
+    <div class="form-control">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" value="<%= product.title %>">
+    </div>
+
+    <div class="form-control">
+        <label for="imageUrl">Image Url</label>
+        <input type="text" name="imageUrl" id="imageUrl" value="<%= product.imageUrl %>">
+    </div>
+
+    <div class="form-control">
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description" value="<%= product.description %>">
+    </div>
+
+    <div class="form-control">
+        <label for="price">Price</label>
+        <input type="number" name="price" id="price" value="<%= product.price %>">
+    </div>
+
+    <button class="btn btn-primary" type="submit">Update Product</button>
+
+</form>
+
+
+
+
+</body>
+</html>

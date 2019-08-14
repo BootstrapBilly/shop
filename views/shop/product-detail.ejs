@@ -1,0 +1,28 @@
+<%- include("../includes/head.ejs") %>
+
+        <div class="card mt-3 w-75 mx-auto" id="card-body">
+            
+            <div class="card-body text-center">
+                
+                <h1 class="card-title text-primary"><%= product.title %></h1>
+                <h2 class="card-title text-primary"><%= product.imageUrl %></h2>
+                <h2 class="card-title text-primary"><%= product.description %></h2>
+                <h2 class="card-title text-primary"><%= product.price %></h2>
+
+                <div class="row">
+                
+                 <% if(isLoggedIn) { %>         
+
+                <div class="col-sm-6 mx-auto"><a href="http://localhost:5000/add-to-cart/<%= product._id %>" class="btn btn-primary w-100">Add to cart</a></div>
+
+                <% } %>  
+            
+                </div>
+
+
+            </div>
+        
+        </div>
+
+</body>
+</html>
