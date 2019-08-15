@@ -168,16 +168,14 @@ exports.postOrder = (req, res) => {
 
 exports.getOrder = (req, res) => {
 
-    Order.find({"user.userId" : req.user._id})
+    Order.find({"user.userId" : req.user._id}) //find the order where the userId in the database matches the user id of the logged in user stored in the session
     
     .then(orders => {
 
-        console.log(orders[0].products[0])
-
-        res.render("shop/order", {
+        res.render("shop/order", { //then render the orders page
             pageTitle: "Orders",
             path: "/order",
-            products: orders[0].products,
+            products: orders[0].products, //store the product info
             isLoggedIn: req.session.isLoggedIn
         })
 
