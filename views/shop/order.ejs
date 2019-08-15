@@ -1,0 +1,20 @@
+<%- include("../includes/head.ejs") %>
+
+    <% for (let product of products) { %>
+
+        <div class="card mt-3 w-25 mx-auto" id="card-body">
+            
+            <div class="card-body bg-dark text-center">
+                
+                <h1 class="card-title text-success"><%= product.productData.title %></h1>
+                <h2 class="card-title text-success"><%= product.productData.price %></h2>
+                <h2 class="card-title text-success"><%= product.quantity %></h2>
+        
+        </div>
+
+    </div>
+
+    <% } %>
+
+</body>
+</html>

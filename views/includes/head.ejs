@@ -32,6 +32,8 @@
                             <a href="/signup" class="nav-item nav-link text-white <%= path === '/signup' ? 'activated' : '' %>">Sign Up</a>
                             <% } %>
                             <% if(isLoggedIn) { %>
+                            <a href="/cart" class="nav-item nav-link text-white  <%= path === '/cart' ? 'activated' : '' %>">Cart</a>
+                            <a href="/order" class="nav-item nav-link text-white  <%= path === '/order' ? 'activated' : '' %>">Orders</a>
                             <a href="http://localhost:5000/admin/add-product" class="nav-item nav-link text-white <%= path === '/add-product' ? 'activated' : '' %>">Add Product</a>
                             <a href="http://localhost:5000/admin/manage-products" class="nav-item nav-link text-white <%= path === '/manage-products' ? 'activated' : '' %>">Manage Products</a>
                             <a href="/logout" class="nav-item nav-link text-white">Log Out</a>

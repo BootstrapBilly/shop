@@ -32,7 +32,8 @@ exports.postAddProduct = (req, res) => {
         title : title,
         imageUrl : imageUrl,
         description : description,
-        price : price
+        price : price,
+        userId: req.user._id
     })
 
     product.save()
@@ -46,7 +47,11 @@ exports.getManageProducts = (req, res) => {
 
     Product.find()
 
+    .populate("userId")
+    
     .then(products => {
+
+        console.log(products);
 
         res.render("admin/manage-products", 
         {

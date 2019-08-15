@@ -1,0 +1,46 @@
+<%- include("../includes/head.ejs") %>
+
+    <% for (let product of cartItems) { %>
+
+        <div class="card mt-3 w-25 mx-auto" id="card-body">
+            
+            <div class="card-body bg-dark text-center">
+                
+                <h1 class="card-title text-success"><%= product.productID.title %></h1>
+                <h2 class="card-title text-success"><%= product.productID.price %></h2>
+                <h2 class="card-title text-success"><%= product.quantity %></h2>
+
+                <div class="row">
+
+                <div class="col-sm-4 mx-auto">
+                    
+                        <form action="http://localhost:5000/remove-from-cart/<%= product._id %>" method="POST">
+                    
+                                <button type="submit" class="btn btn-success w-100">Remove</button>
+                    
+                        </form>
+                            
+                
+            
+                </div>
+
+
+            </div>
+        
+        </div>
+
+    </div>
+
+    <% } %>
+
+    <% if(cartItems.length > 0) { %>
+
+    <form action="http://localhost:5000/order" class="w-25 mt-5 mx-auto" method="POST">
+                    
+        <button type="submit" class="btn btn-primary w-100">Checkout</button>
+
+    </form>
+
+    <% } %>
+</body>
+</html>
