@@ -15,7 +15,8 @@
                 <div class="col-sm-4 mx-auto">
                     
                         <form action="http://localhost:5000/remove-from-cart/<%= product._id %>" method="POST">
-                    
+
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>"> 
                                 <button type="submit" class="btn btn-success w-100">Remove</button>
                     
                         </form>
@@ -36,11 +37,13 @@
     <% if(cartItems.length > 0) { %>
 
     <form action="http://localhost:5000/order" class="w-25 mt-5 mx-auto" method="POST">
-                    
+        
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button type="submit" class="btn btn-primary w-100">Checkout</button>
 
     </form>
 
     <% } %>
+</div>
 </body>
 </html>

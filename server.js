@@ -8,13 +8,14 @@ const authRouter = require("./routes/authRouter");
 const adminRouter = require("./routes/adminRouter");
 const User = require("./models/user");
 
-
 //External
 const bodyParser = require("body-parser");
 const express = require("express");
 const mongoose = require('mongoose');
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const csrf = require("csurf");
+const flash = require("connect-flash");
 
 
 
@@ -31,7 +32,7 @@ const store = new MongoDBStore({
   
   });
 
-server.use(session({secret: "my secret", resave: false, saveUninitialized: false, store: store}));
+const csrfProtection = csrf(); //Intialise the csurf protection -> saves to session as default
 
 server.set("view engine", "ejs");//set the templating engine to ejs
 
@@ -41,14 +42,33 @@ server.use(bodyParser.urlencoded({extended: false}));//Set up the body parser
 
 //=Middleware
 
+server.use(session({secret: "my secret", resave: false, saveUninitialized: false, store: store}));
+
+server.use(flash());
+
+server.use(csrfProtection); //checks the csrf token is valid when a new request is run
+
 server.use((req, res, next) => { //store a specific user in the request object
 
-  User.findById("5d5426f2bf5dcf2cc42bda49")//find the fake user by id
+  if(!req.session.user){//if there is no logged in user stored in the request
+
+    return next();//move onto the next middleware
+  }
+
+  User.findById(req.session.user._id)//Otherwise find the user that is logged in
   .then(user => { //returns the user from the database
-    req.user = user; //create a new user to store in the request object and map it with the values we just pulled from the database
+    req.user = user; //and set the user to the user stored in the request
     next();//move onto the next function
   })
   .catch(err => console.log(err))//catch any errors
+})
+
+server.use((req, res, next) => {
+
+  res.locals.isAuthenticated = req.session.isLoggedIn; //set the cookies for every request which will be passed to every page that is rendered
+  res.locals.csrfToken = req.csrfToken();//req.csrfToken() generates a csrf token for every request and stores it in the local variables which are passed into the views
+  next();
+
 })
 
 server.use('/admin', adminRouter);
@@ -59,11 +79,11 @@ server.use(authRouter);
 
 mongoose
   .connect(
-    MONGODBURI
+    MONGODBURI, {useNewUrlParser: true}
   )
   .then(result => {
     server.listen(5000);
-    console.log("connection established")
+    console.log("\x1b[35m", "\nServer online")
   })
   .catch(err => {
     console.log(err);
